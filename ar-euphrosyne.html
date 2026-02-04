@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR: Евфросиния Полоцкая</title>
+    
+    <!-- AR.js и A-Frame -->
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { margin: 0; overflow: hidden; font-family: 'Arial', sans-serif; }
+
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: rgba(139, 21, 56, 0.9);
+            color: white;
+            border: 3px solid white;
+            border-radius: 50%;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 10001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .close-button:hover {
+            transform: scale(1.1);
+            background: rgba(165, 42, 42, 0.9);
+        }
+
+        .info-panel {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            z-index: 10000;
+            text-align: center;
+            max-width: 90%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .info-panel h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .info-panel p {
+            margin: 5px 0;
+            font-size: 1rem;
+        }
+
+        .marker-status {
+            margin-top: 15px;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .marker-status.searching {
+            background: rgba(255, 170, 0, 0.3);
+            border: 2px solid #ffaa00;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .marker-status.found {
+            background: rgba(0, 200, 0, 0.3);
+            border: 2px solid #00ff00;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+
+        .instructions {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 15px;
+            z-index: 10000;
+            text-align: center;
+            max-width: 90%;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .instructions strong {
+            color: #D4AF37;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .loading-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #8B1538 0%, #A52A2A 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            color: white;
+            transition: opacity 0.5s;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 6px solid rgba(255, 255, 255, 0.3);
+            border-top: 6px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-screen h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .loading-screen p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .info-panel h2 { font-size: 1.2rem; }
+            .info-panel p { font-size: 0.9rem; }
+            .close-button { width: 50px; height: 50px; font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div id="loading-screen" class="loading-screen">
+        <div class="loader"></div>
+        <h2>Загрузка AR...</h2>
+        <p>Подготовка камеры</p>
+    </div>
+
+    <button class="close-button" onclick="goBack()" title="Закрыть AR">✕</button>
+
+    <div class="info-panel">
+        <h2 id="status-title">📱 AR Готов!</h2>
+        <p id="status-text">Наведите камеру на портрет Евфросинии Полоцкой</p>
+        <div id="marker-status" class="marker-status searching">🔍 Поиск изображения...</div>
+    </div>
+
+    <div class="instructions">
+        <strong>💡 Инструкция:</strong>
+        Наведите камеру на портрет Евфросинии Полоцкой (efra.jpg). Изображение должно быть четко видно в хорошем освещении.
+    </div>
+
+    <!-- AR Сцена с пользовательским маркером efra.jpg -->
+    <a-scene
+        id="ar-scene"
+        embedded
+        arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
+        vr-mode-ui="enabled: false"
+        renderer="antialias: true; alpha: true; precision: medium;"
+        loading-screen="enabled: false">
+        
+        <a-assets>
+            <!-- 3D модель -->
+            <a-asset-item id="model-glb" src="sample.glb"></a-asset-item>
+        </a-assets>
+
+        <!-- Пользовательский маркер на основе фото Евфросинии -->
+        <a-marker 
+            type="pattern" 
+            url="pattern-efra.patt" 
+            id="main-marker" 
+            smooth="true" 
+            smoothCount="5" 
+            smoothTolerance="0.01"
+            emitevents="true">
+            
+            <!-- Главная 3D модель -->
+            <a-entity
+                id="main-model"
+                gltf-model="#model-glb"
+                position="0 0.5 0"
+                scale="0.5 0.5 0.5"
+                animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear">
+            </a-entity>
+            
+            <!-- Священное кольцо (византийский стиль) -->
+            <a-ring 
+                position="0 0 0" 
+                rotation="-90 0 0" 
+                radius-inner="1" 
+                radius-outer="1.3" 
+                color="#8B1538"
+                opacity="0.7"
+                material="side: double"
+                animation="property: rotation; to: -90 0 360; loop: true; dur: 12000; easing: linear">
+            </a-ring>
+            
+            <!-- Золотое внутреннее кольцо -->
+            <a-ring 
+                position="0 0.05 0" 
+                rotation="-90 0 0" 
+                radius-inner="0.7" 
+                radius-outer="0.9" 
+                color="#D4AF37"
+                opacity="0.8"
+                material="side: double; metalness: 0.8"
+                animation="property: rotation; to: -90 0 -360; loop: true; dur: 8000; easing: linear">
+            </a-ring>
+            
+            <!-- Крест над моделью (символ веры) -->
+            <a-box 
+                position="0 2.5 0" 
+                width="0.1" 
+                height="0.6" 
+                depth="0.1" 
+                color="#8B1538"
+                material="metalness: 0.5">
+            </a-box>
+            <a-box 
+                position="0 2.5 0" 
+                width="0.4" 
+                height="0.1" 
+                depth="0.1" 
+                color="#8B1538"
+                material="metalness: 0.5">
+            </a-box>
+            
+            <!-- Святящиеся золотые частицы (символ божественного света) -->
+            <a-sphere 
+                position="1.2 1 0" 
+                radius="0.08" 
+                color="#D4AF37"
+                material="emissive: #D4AF37; emissiveIntensity: 0.7"
+                animation="property: position; to: 1.2 2.5 0; dir: alternate; dur: 2500; loop: true; easing: easeInOutQuad">
+            </a-sphere>
+            
+            <a-sphere 
+                position="-1.2 1.2 0" 
+                radius="0.08" 
+                color="#D4AF37"
+                material="emissive: #D4AF37; emissiveIntensity: 0.7"
+                animation="property: position; to: -1.2 2.7 0; dir: alternate; dur: 2700; loop: true; easing: easeInOutQuad; delay: 500">
+            </a-sphere>
+            
+            <a-sphere 
+                position="0 1 1.2" 
+                radius="0.08" 
+                color="#D4AF37"
+                material="emissive: #D4AF37; emissiveIntensity: 0.7"
+                animation="property: position; to: 0 2.3 1.2; dir: alternate; dur: 2300; loop: true; easing: easeInOutQuad; delay: 800">
+            </a-sphere>
+            
+            <a-sphere 
+                position="0 1.1 -1.2" 
+                radius="0.08" 
+                color="#D4AF37"
+                material="emissive: #D4AF37; emissiveIntensity: 0.7"
+                animation="property: position; to: 0 2.6 -1.2; dir: alternate; dur: 2400; loop: true; easing: easeInOutQuad; delay: 1200">
+            </a-sphere>
+
+            <!-- Белые частицы (символ чистоты) -->
+            <a-sphere 
+                position="0.85 1.5 0.85" 
+                radius="0.06" 
+                color="#FFFFFF"
+                material="emissive: #FFFFFF; emissiveIntensity: 0.5; opacity: 0.8"
+                animation="property: position; to: 0.85 2.2 0.85; dir: alternate; dur: 2000; loop: true; easing: easeInOutQuad; delay: 300">
+            </a-sphere>
+            
+            <a-sphere 
+                position="-0.85 1.3 -0.85" 
+                radius="0.06" 
+                color="#FFFFFF"
+                material="emissive: #FFFFFF; emissiveIntensity: 0.5; opacity: 0.8"
+                animation="property: position; to: -0.85 2.1 -0.85; dir: alternate; dur: 2200; loop: true; easing: easeInOutQuad; delay: 700">
+            </a-sphere>
+            
+            <!-- Текст -->
+            <a-text 
+                value="Евфросиния Полоцкая" 
+                position="0 3.2 0" 
+                align="center"
+                color="#8B1538"
+                width="4"
+                font="https://cdn.aframe.io/fonts/Roboto-msdf.json"
+                animation="property: scale; to: 1.1 1.1 1.1; dir: alternate; dur: 1800; loop: true; easing: easeInOutQuad">
+            </a-text>
+            
+            <a-text 
+                value="1104-1167" 
+                position="0 2.9 0" 
+                align="center"
+                color="#D4AF37"
+                width="3"
+                font="https://cdn.aframe.io/fonts/Roboto-msdf.json">
+            </a-text>
+            
+            <!-- Основание с мягким свечением -->
+            <a-circle 
+                position="0 0.01 0" 
+                rotation="-90 0 0" 
+                radius="1.5" 
+                color="#F5E6D3" 
+                opacity="0.3"
+                material="side: double"
+                animation="property: scale; to: 1.1 1.1 1.1; dir: alternate; dur: 3000; loop: true; easing: easeInOutSine">
+            </a-circle>
+            
+            <!-- Освещение -->
+            <a-light type="point" intensity="1.5" color="#FFFFFF" position="0 3 0"></a-light>
+            <a-light type="ambient" intensity="0.8" color="#FFFFFF"></a-light>
+            
+        </a-marker>
+
+        <a-entity camera></a-entity>
+    </a-scene>
+
+    <script>
+        let markerFound = false;
+        
+        function goBack() {
+            const scene = document.querySelector('a-scene');
+            if (scene && scene.components && scene.components.arjs) {
+                scene.components.arjs.stopVideo();
+            }
+            window.location.href = 'gallery.html';
+        }
+
+        window.addEventListener('load', function() {
+            console.log('AR сцена загружается...');
+            
+            const loadingScreen = document.getElementById('loading-screen');
+            const marker = document.getElementById('main-marker');
+            const statusTitle = document.getElementById('status-title');
+            const statusText = document.getElementById('status-text');
+            const markerStatus = document.getElementById('marker-status');
+
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+                console.log('AR готов!');
+            }, 2000);
+
+            if (marker) {
+                marker.addEventListener('markerFound', function() {
+                    console.log('✅ Маркер найден!');
+                    markerFound = true;
+                    
+                    statusTitle.innerHTML = '✅ Образ найден!';
+                    statusText.innerHTML = 'Смотрите на святую покровительницу Беларуси';
+                    markerStatus.innerHTML = '🙏 Евфросиния с вами';
+                    markerStatus.className = 'marker-status found';
+                    
+                    if ('vibrate' in navigator) {
+                        navigator.vibrate(100);
+                    }
+                });
+
+                marker.addEventListener('markerLost', function() {
+                    console.log('❌ Маркер потерян');
+                    markerFound = false;
+                    
+                    statusTitle.innerHTML = '📱 AR Готов!';
+                    statusText.innerHTML = 'Наведите камеру на портрет Евфросинии';
+                    markerStatus.innerHTML = '🔍 Поиск изображения...';
+                    markerStatus.className = 'marker-status searching';
+                });
+            }
+
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        facingMode: 'environment',
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    } 
+                })
+                .then(function(stream) {
+                    console.log('✅ Доступ к камере получен');
+                })
+                .catch(function(error) {
+                    console.error('❌ Ошибка доступа к камере:', error);
+                    alert('Пожалуйста, разрешите доступ к камере для работы AR.\n\nУбедитесь, что:\n1. Вы используете HTTPS\n2. Браузер имеет разрешение на камеру\n3. Камера не используется другим приложением');
+                    setTimeout(() => {
+                        goBack();
+                    }, 3000);
+                });
+            } else {
+                alert('Ваш браузер не поддерживает доступ к камере');
+                setTimeout(() => {
+                    goBack();
+                }, 2000);
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                goBack();
+            }
+        });
+
+        window.addEventListener('beforeunload', function(e) {
+            if (markerFound) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+
+        console.log('🚀 AR опыт: Евфросиния Полоцкая');
+        console.log('📍 Ожидание маркера efra.jpg...');
+        console.log('✅ Используется пользовательский маркер pattern-efra.patt');
+    </script>
+</body>
+</html>

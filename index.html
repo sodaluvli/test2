@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html lang="be">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вечныя Вобразы: Спадчына Жанчын Беларусі</title>
+    <title>Вечные Образы: Наследие Женщин Беларуси</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         :root {
-            /* Традиционная белорусская цветовая палитра */
             --burgundy: #8B1538;
             --deep-red: #A52A2A;
             --cream: #F5F0E8;
@@ -19,332 +18,533 @@
             --white: #FFFFFF;
             --charcoal: #2C2C2C;
             --soft-gray: #E8E4DC;
-            
-            /* Типографика */
             --font-display: 'Philosopher', sans-serif;
             --font-body: 'Cormorant Garamond', serif;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: var(--font-body);
-            background: var(--cream);
-            color: var(--charcoal);
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Декоративный фоновый паттерн, вдохновлённый традиционным белорусским орнаментом */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-body); background: var(--cream); color: var(--charcoal); overflow-x: hidden; position: relative; }
         body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139, 21, 56, 0.02) 2px, rgba(139, 21, 56, 0.02) 4px),
-                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(139, 21, 56, 0.02) 2px, rgba(139, 21, 56, 0.02) 4px);
-            pointer-events: none;
-            z-index: 0;
+            content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139, 21, 56, 0.02) 2px, rgba(139, 21, 56, 0.02) 4px),
+                            repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(139, 21, 56, 0.02) 2px, rgba(139, 21, 56, 0.02) 4px);
+            pointer-events: none; z-index: 0;
         }
-
-        /* Шапка сайта */
         header {
-            position: relative;
-            background: linear-gradient(135deg, var(--burgundy) 0%, var(--deep-red) 100%);
-            color: var(--white);
-            padding: 4rem 2rem;
-            text-align: center;
-            box-shadow: 0 8px 32px rgba(139, 21, 56, 0.3);
-            overflow: hidden;
+            position: relative; background: linear-gradient(135deg, var(--burgundy) 0%, var(--deep-red) 100%);
+            color: var(--white); padding: 4rem 2rem; text-align: center;
+            box-shadow: 0 8px 32px rgba(139, 21, 56, 0.3); overflow: hidden;
         }
-
         header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 20px,
-                rgba(255, 255, 255, 0.03) 20px,
-                rgba(255, 255, 255, 0.03) 40px
-            );
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255, 255, 255, 0.03) 20px, rgba(255, 255, 255, 0.03) 40px);
             animation: slidePattern 60s linear infinite;
         }
-
-        @keyframes slidePattern {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(40px, 40px); }
-        }
-
-        .header-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        h1 {
-            font-family: var(--font-display);
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-            animation: fadeInDown 1s ease-out;
-        }
-
-        .subtitle {
-            font-size: 1.5rem;
-            font-weight: 300;
-            letter-spacing: 1px;
-            opacity: 0.95;
-            animation: fadeInUp 1s ease-out 0.3s both;
-        }
-
+        @keyframes slidePattern { 0% { transform: translate(0, 0); } 100% { transform: translate(40px, 40px); } }
+        .header-content { position: relative; z-index: 1; }
+        h1 { font-family: var(--font-display); font-size: 3.5rem; font-weight: 700; margin-bottom: 1rem; letter-spacing: 2px; text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3); animation: fadeInDown 1s ease-out; }
+        .subtitle { font-size: 1.5rem; font-weight: 300; letter-spacing: 1px; opacity: 0.95; animation: fadeInUp 1s ease-out 0.3s both; }
         .year-badge {
-            display: inline-block;
-            margin-top: 1.5rem;
-            padding: 0.75rem 2rem;
-            background: var(--gold);
-            color: var(--charcoal);
-            font-family: var(--font-display);
-            font-size: 1.1rem;
-            font-weight: 700;
-            border-radius: 50px;
-            box-shadow: 0 4px 16px rgba(212, 175, 55, 0.4);
-            animation: fadeInUp 1s ease-out 0.6s both;
+            display: inline-block; margin-top: 1.5rem; padding: 0.75rem 2rem; background: var(--gold);
+            color: var(--charcoal); font-family: var(--font-display); font-size: 1.1rem; font-weight: 700;
+            border-radius: 50px; box-shadow: 0 4px 16px rgba(212, 175, 55, 0.4); animation: fadeInUp 1s ease-out 0.6s both;
         }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        nav { position: sticky; top: 0; background: var(--white); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); z-index: 1000; padding: 1rem 2rem; }
+        nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 2rem; }
+        nav a { font-family: var(--font-display); text-decoration: none; color: var(--charcoal); font-size: 1.1rem; font-weight: 500; position: relative; transition: color 0.3s; }
+        nav a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--burgundy); transition: width 0.3s; }
+        nav a:hover { color: var(--burgundy); }
+        nav a:hover::after { width: 100%; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 3rem 2rem; position: relative; }
+        .intro-section { text-align: center; margin-bottom: 4rem; padding: 3rem; background: var(--white); border-radius: 16px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); animation: fadeIn 1s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .intro-section h2 { font-family: var(--font-display); font-size: 2.5rem; color: var(--burgundy); margin-bottom: 1.5rem; }
+        .intro-section p { font-size: 1.3rem; line-height: 1.8; color: var(--charcoal); max-width: 900px; margin: 0 auto; }
+        .timeline-section { margin-bottom: 4rem; }
+        .timeline-header { text-align: center; margin-bottom: 3rem; }
+        .timeline-header h2 { font-family: var(--font-display); font-size: 2.8rem; color: var(--burgundy); margin-bottom: 1rem; }
+        .timeline-header p { font-size: 1.2rem; color: var(--charcoal); opacity: 0.8; }
+        .timeline-container { position: relative; padding: 2rem 0; }
+        .timeline-line { position: absolute; left: 50%; transform: translateX(-50%); width: 4px; height: 100%; background: linear-gradient(to bottom, var(--burgundy), var(--gold)); border-radius: 2px; }
+        .timeline-period { position: relative; margin-bottom: 4rem; animation: slideInTimeline 0.8s ease-out both; }
+        .timeline-period:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-period:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-period:nth-child(3) { animation-delay: 0.3s; }
+        .timeline-period:nth-child(4) { animation-delay: 0.4s; }
+        .timeline-period:nth-child(5) { animation-delay: 0.5s; }
+        .timeline-period:nth-child(6) { animation-delay: 0.6s; }
+        .timeline-period:nth-child(7) { animation-delay: 0.7s; }
+        @keyframes slideInTimeline { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .timeline-period:nth-child(odd) .period-content { margin-right: 55%; text-align: right; }
+        .timeline-period:nth-child(even) .period-content { margin-left: 55%; text-align: left; }
+        .period-marker { position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 24px; height: 24px; background: var(--gold); border: 4px solid var(--white); border-radius: 50%; box-shadow: 0 0 0 4px var(--burgundy); z-index: 10; }
+        .period-content { background: var(--white); padding: 2rem; border-radius: 12px; box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1); transition: transform 0.3s, box-shadow 0.3s; }
+        .period-content:hover { transform: translateY(-5px); box-shadow: 0 12px 36px rgba(139, 21, 56, 0.2); }
+        .period-title { font-family: var(--font-display); font-size: 1.8rem; color: var(--burgundy); margin-bottom: 0.75rem; font-weight: 700; }
+        .period-dates { font-size: 1rem; color: var(--gold); font-weight: 600; margin-bottom: 1rem; letter-spacing: 1px; }
+        .period-description { font-size: 1.1rem; line-height: 1.7; color: var(--charcoal); margin-bottom: 1.5rem; opacity: 0.85; }
+        .women-list { margin-top: 1.5rem; }
+        .woman-card { background: var(--soft-gray); padding: 1.25rem; margin-bottom: 1rem; border-radius: 8px; cursor: pointer; transition: all 0.3s; border-left: 4px solid var(--burgundy); }
+        .woman-card:hover { background: var(--cream); transform: translateX(5px); box-shadow: 0 4px 16px rgba(139, 21, 56, 0.15); }
+        .woman-name { font-family: var(--font-display); font-size: 1.3rem; color: var(--burgundy); font-weight: 700; margin-bottom: 0.3rem; }
+        .woman-years { font-size: 0.95rem; color: var(--gold); font-weight: 600; margin-bottom: 0.5rem; }
+        .woman-description { font-size: 1.05rem; line-height: 1.6; color: var(--charcoal); }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 2000; overflow-y: auto; animation: fadeIn 0.3s; }
+        .modal.active { display: flex; align-items: center; justify-content: center; padding: 2rem; }
+        .modal-content { background: var(--white); max-width: 800px; width: 100%; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); animation: slideUp 0.4s ease-out; position: relative; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+        .modal-header { background: linear-gradient(135deg, var(--burgundy), var(--deep-red)); color: var(--white); padding: 2.5rem; position: relative; }
+        .modal-close { position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(255, 255, 255, 0.2); border: none; color: var(--white); font-size: 2rem; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; transition: background 0.3s; display: flex; align-items: center; justify-content: center; z-index: 10; }
+        .modal-close:hover { background: rgba(255, 255, 255, 0.3); }
+        .chronicle-header { background: linear-gradient(135deg, var(--gold), var(--burgundy)); }
+        .modal-body { padding: 2.5rem; }
+        .modal-name { font-family: var(--font-display); font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .modal-years { font-size: 1.3rem; opacity: 0.9; }
+        .modal-description { font-size: 1.2rem; line-height: 1.8; color: var(--charcoal); }
+        .modal-quote { margin-top: 2rem; padding: 1.5rem; background: var(--soft-gray); border-left: 4px solid var(--gold); border-radius: 8px; font-style: italic; font-size: 1.15rem; color: var(--charcoal); }
+        .section { margin-bottom: 4rem; padding: 3rem; background: var(--white); border-radius: 16px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); text-align: center; }
+        .section h2 { font-family: var(--font-display); font-size: 2.5rem; color: var(--burgundy); margin-bottom: 1.5rem; }
+        .section p { font-size: 1.2rem; line-height: 1.8; color: var(--charcoal); max-width: 800px; margin: 0 auto 2rem auto; }
+        .chronicle-form { width: 100%; }
+        .form-group { margin-bottom: 1.5rem; text-align: left; }
+        .form-group label { display: block; font-family: var(--font-display); font-weight: 700; color: var(--burgundy); margin-bottom: 0.5rem; font-size: 1.1rem; }
+        .form-group input[type="text"], .form-group input[type="email"], .form-group textarea { width: 100%; padding: 0.8rem 1rem; border: 2px solid #ccc; border-radius: 8px; font-family: var(--font-body); font-size: 1.1rem; transition: border-color 0.3s; background: var(--white); }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--gold); }
+        .cta-button, .submit-button { display: inline-block; margin-top: 2rem; padding: 1rem 2.5rem; background: var(--burgundy); color: var(--white); font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; text-decoration: none; border-radius: 50px; border: none; box-shadow: 0 6px 20px rgba(139, 21, 56, 0.3); transition: all 0.3s; cursor: pointer; }
+        .cta-button:hover, .submit-button:hover { background: var(--deep-red); transform: translateY(-3px); box-shadow: 0 8px 28px rgba(139, 21, 56, 0.4); }
+        footer { background: var(--charcoal); color: var(--white); padding: 3rem 2rem; text-align: center; }
+        footer p { font-size: 1.1rem; opacity: 0.9; }
+        @media (max-width: 968px) {
+            h1 { font-size: 2.5rem; }
+            .subtitle { font-size: 1.2rem; }
+            .timeline-period:nth-child(odd) .period-content, .timeline-period:nth-child(even) .period-content { margin-left: 10%; margin-right: 10%; text-align: left; }
+            .timeline-line { left: 2rem; }
+            .period-marker { left: 2rem; }
         }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .timeline-header h2, .section h2 { font-size: 2rem; }
+            .modal-content { margin: 1rem; }
+            nav ul { flex-direction: column; gap: 1rem; }
         }
-
-        /* Навигация */
-        nav {
-            position: sticky;
-            top: 0;
-            background: var(--white);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            padding: 1rem 2rem;
+        /* Чат-бот виджет стили */
+        #chatbot-container { position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: none; }
+        #chatbot-container.open { display: block; }
+        #chatbot-toggle {
+            position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px;
+            border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; border: none; font-size: 28px; cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 9998;
+            display: flex; align-items: center; justify-content: center; transition: transform 0.3s;
         }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 2rem;
+        #chatbot-toggle:hover { transform: scale(1.1); }
+        #chatbot-toggle.hidden { display: none; }
+        .chatbot-close-btn {
+            position: absolute; top: -15px; right: -15px; width: 35px; height: 35px;
+            background: #ff4757; color: white; border: none; border-radius: 50%;
+            font-size: 20px; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex; align-items: center; justify-content: center; z-index: 10000;
+            transition: transform 0.2s;
         }
-
-        nav a {
-            font-family: var(--font-display);
-            text-decoration: none;
-            color: var(--charcoal);
-            font-size: 1.1rem;
-            font-weight: 500;
-            position: relative;
-            transition: color 0.3s;
-        }
-
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--burgundy);
-            transition: width 0.3s;
-        }
-
-        nav a:hover {
-            color: var(--burgundy);
-        }
-
-        nav a:hover::after {
-            width: 100%;
-        }
-
-        /* Основной контейнер */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-            position: relative;
-        }
-
-        /* AR Секция */
-        .ar-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 3rem 2rem;
-            margin: 3rem 0;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            color: white;
-        }
-
-        .ar-section h2 {
-            font-family: var(--font-display);
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .ar-section p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-
-        .ar-button {
-            display: inline-block;
-            padding: 1rem 3rem;
-            background: var(--gold);
-            color: var(--charcoal);
-            font-family: var(--font-display);
-            font-size: 1.2rem;
-            font-weight: 700;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            text-decoration: none;
-            box-shadow: 0 4px 16px rgba(212, 175, 55, 0.4);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .ar-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
-        }
-
-        .ar-instructions {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            border-radius: 15px;
-            margin-top: 2rem;
-            backdrop-filter: blur(10px);
-        }
-
-        .ar-instructions h3 {
-            font-family: var(--font-display);
-            margin-bottom: 1rem;
-        }
-
-        .ar-instructions ol {
-            text-align: left;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.8;
-        }
-
-        .ar-instructions li {
-            margin-bottom: 0.5rem;
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-            
-            .ar-section h2 {
-                font-size: 2rem;
-            }
-        }
+        .chatbot-close-btn:hover { transform: scale(1.1); background: #ff6b81; }
     </style>
 </head>
 <body>
     <header>
         <div class="header-content">
-            <h1>Вечныя Вобразы</h1>
-            <p class="subtitle">Спадчына Жанчын Беларусі</p>
-            <div class="year-badge">2025</div>
+            <h1>Вечные Образы</h1>
+            <div class="subtitle">Наследие Женщин Беларуси</div>
+            <div class="year-badge">ГОД БЕЛОРУССКОЙ ЖЕНЩИНЫ • 2026</div>
         </div>
     </header>
 
     <nav>
         <ul>
-            <li><a href="#home">Галоўная</a></li>
-            <li><a href="#ar-experience">AR Вопыт</a></li>
-            <li><a href="gallery.html">Галерея</a></li>
+            <li><a href="#intro">О проекте</a></li>
+            <li><a href="#timeline">Линия Времени</a></li>
+            <li><a href="gallery.html">Аллея Славы</a></li>
+            <li><a href="#chronicles">Народная Летопись</a></li>
+            <li><a href="education.html">Урок в будущее</a></li>
         </ul>
     </nav>
 
     <div class="container">
-        <!-- AR Секция -->
-        <section id="ar-experience" class="ar-section">
-            <h2>🎨 Дополненная Рэальнасць</h2>
-            <p>Адкрыйце 3D-модэлі з дапамогай камеры вашага тэлефона!</p>
-            <p>Наведзіце камеру на маркер, каб убачыць інтэрактыўныя аб'екты.</p>
-            
-            <a href="ar-viewer.html" class="ar-button">📱 Запусціць AR</a>
-            
-            <div class="ar-instructions">
-                <h3>Інструкцыі:</h3>
-                <ol>
-                    <li>Націсніце кнопку "Запусціць AR"</li>
-                    <li>Дазвольце доступ да камеры</li>
-                    <li>Адкрыйце маркер Hiro на іншым прыладзе або распрасуйце яго</li>
-                    <li>Наведзіце камеру на маркер</li>
-                    <li>Назірайце 3D-модэлі ў дополненнай рэальнасці!</li>
-                </ol>
-                <p style="margin-top: 1rem; font-size: 0.9rem;">
-                    📥 <a href="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/images/hiro.png" 
-                         target="_blank" 
-                         style="color: var(--gold); text-decoration: underline;">
-                         Спампаваць маркер Hiro
-                    </a>
-                </p>
+        <!-- Текст из PDF стр. 4 -->
+        <section id="intro" class="section">
+            <h2>Добро пожаловать в пространство «Вечных Образов»</h2>
+            <p>
+                Перед вами – живая история силы, мудрости и созидательной энергии. 
+                Здесь оживают судьбы женщин, чья отвага, талант и преданность делу веками создавали Беларусь.
+                Это не просто архив. Это мост между эпохами, на котором вы сможете прикоснуться к подлинным документам и артефактам, 
+                побеседовать с великими соотечественницами через диалоговый ИИ, шагнуть в их эпоху с помощью виртуальной реальности, 
+                вписать историю своей семьи в народную летопись.
+            </p>
+            <p>
+                Исследуйте «Линию Времени», чтобы выбрать путь. Или сразу начните путешествие с «Аллеи Славы». 
+                Наследие ждет своего хранителя. Ваше путешествие начинается сейчас.
+            </p>
+        </section>
+
+        <!-- Описание из PDF стр. 2 -->
+        <section id="timeline" class="timeline-container">
+            <div class="section" style="border:none; box-shadow:none; background:transparent;">
+                <h2>Линия Времени</h2>
+                <p>Основной навигатор по эпохам и судьбам</p>
             </div>
+
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+
+                <div class="timeline-period">
+                    <div class="period-marker"></div>
+                    <div class="period-content">
+                        <div class="period-title">Княжества и ВКЛ</div>
+                        <div class="period-dates">XII – XVI вв.</div>
+                        <div class="period-description">
+                            Время формирования национальной идентичности, когда женщины становились опорой просвещения и духовности.
+                        </div>
+                        <div class="woman-card" onclick="openModal('euphrosyne')">
+                            <div class="woman-name">Евфросиния Полоцкая</div>
+                            <div class="woman-years">ок. 1104–1167</div>
+                        </div>
+                        <div class="woman-card" onclick="openModal('anastasia')">
+                            <div class="woman-name">Анастасия Слуцкая</div>
+                            <div class="woman-years">ок. 1500–1554</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-period">
+                    <div class="period-marker"></div>
+                    <div class="period-content">
+                        <div class="period-title">Речь Посполитая</div>
+                        <div class="period-dates">XVI – конец XVIII ст.</div>
+                        <div class="period-description">
+                            Эпоха культурного расцвета, когда женщины становились основательницами художественных традиций и покровительницами искусств.
+                        </div>
+                        <div class="women-list">
+                            <div class="woman-card" onclick="openModal('barbara')">
+                                <div class="woman-name">Барбара Радзивилл</div>
+                                <div class="woman-years">1520–1551</div>
+                                <div class="woman-description">
+                                    Королева польская и великая княгиня литовская, одна из самых романтичных и трагических фигур эпохи.
+                                </div>
+                            </div>
+                            <div class="woman-card" onclick="openModal('franciszka')">
+                                <div class="woman-name">Франтишка Урсула Радзивилл</div>
+                                <div class="woman-years">1705–1753</div>
+                                <div class="woman-description">
+                                    Первая женщина-драматург в истории белорусской и польской литературы. Основательница домашнего театра в Несвиже.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-period">
+                    <div class="period-marker"></div>
+                    <div class="period-content">
+                        <div class="period-title">Российская империя</div>
+                        <div class="period-dates">конец XVIII – 1917 г.</div>
+                        <div class="period-description">
+                            Время национального возрождения, когда женщины создавали основы современной белорусской литературы и культуры.
+                        </div>
+                        <div class="women-list">
+                            <div class="woman-card" onclick="openModal('tetka')">
+                                <div class="woman-name">Алоиза Пашкевич (Тётка)</div>
+                                <div class="woman-years">1876–1916</div>
+                                <div class="woman-description">
+                                    Одна из основательниц современной белорусской литературы, поэтесса, писательница, общественно-политический деятель.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-period">
+                    <div class="period-marker"></div>
+                    <div class="period-content">
+                        <div class="period-title">Межвоенный период</div>
+                        <div class="period-dates">1921–1939 гг.</div>
+                        <div class="period-description">
+                            Время формирования национальной интеллигенции и борьбы за белорусскую идентичность.
+                        </div>
+                        <div class="women-list">
+                            <div class="woman-card" onclick="openModal('natalya')">
+                                <div class="woman-name">Наталья Арсеньева</div>
+                                <div class="woman-years">1903–1997</div>
+                                <div class="woman-description">
+                                    Поэтесса, драматург, переводчица. Автор стихотворения «Магутны Божа».
+                                </div>
+                            </div>
+                            <div class="woman-card" onclick="openModal('larysa')">
+                                <div class="woman-name">Лариса Гениюш</div>
+                                <div class="woman-years">1910–1983</div>
+                                <div class="woman-description">
+                                    Поэтесса, общественный деятель. Участница белорусского национального движения.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-period">
+                    <div class="period-marker"></div>
+                    <div class="period-content">
+                        <div class="period-title">Великая Отечественная война</div>
+                        <div class="period-dates">1941–1945 гг.</div>
+                        <div class="period-description">
+                            Время невыразимого героизма женщин, отдавших жизнь за свободу Родины.
+                        </div>
+                        <div class="women-list">
+                            <div class="woman-card" onclick="openModal('vera')">
+                                <div class="woman-name">Вера Хоружая</div>
+                                <div class="woman-years">1903–1942</div>
+                                <div class="woman-description">
+                                    Подпольщица, партизанская активистка. Герой Советского Союза (посмертно).
+                                </div>
+                            </div>
+                            <div class="woman-card" onclick="openModal('mariya')">
+                                <div class="woman-name">Мария Осипова</div>
+                                <div class="woman-years">1908–1999</div>
+                                <div class="woman-description">
+                                    Участница минского подполья, руководитель операции по ликвидации гауляйтера Вильгельма Кубе. Герой Советского Союза.
+                                </div>
+                            </div>
+                            <div class="woman-card" onclick="openModal('zinaida')">
+                                <div class="woman-name">Зинаида Туснолобова-Марченко</div>
+                                <div class="woman-years">1920–1980</div>
+                                <div class="woman-description">
+                                    Санинструктор, вынесла с поля боя 128 раненых бойцов. Герой Советского Союза.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-period">
+                    <div class="period-marker"></div>
+                    <div class="period-content">
+                        <div class="period-title">Современная независимая Беларусь</div>
+                        <div class="period-dates">с 1991 г.</div>
+                        <div class="period-description">
+                            Время новых достижений и мирового признания белорусских женщин.
+                        </div>
+                        <div class="women-list">
+                            <div class="woman-card" onclick="openModal('darya')">
+                                <div class="woman-name">Дарья Домрачева</div>
+                                <div class="woman-years">род. 1986</div>
+                                <div class="woman-description">
+                                    Биатлонистка, четырехкратная олимпийская чемпионка, Герой Беларуси.
+                                </div>
+                            </div>
+                            <div class="woman-card" onclick="openModal('marina')">
+                                <div class="woman-name">Марина Василевская</div>
+                                <div class="woman-years">род. 1990</div>
+                                <div class="woman-description">
+                                    Первая женщина-космонавт суверенной Беларуси, Герой Беларуси.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery" class="section">
+            <h2>Аллея Славы</h2>
+            <p>
+                Это персональные, наполненные технологиями залы для каждой героини, где оживают портреты, а документы превращаются в интерактивные истории. Платформа формирует целостный, визуально богатый и технологически продвинутый пантеон белорусских женщин.
+            </p>
+            <a href="gallery.html" class="cta-button">Исследовать галерею</a>
+        </section>
+
+        <section id="chronicles" class="section">
+            <h2>Народная Летопись</h2>
+            <p>
+                Краудсорсинговый архив семейных подвигов. Раздел превращает каждого пользователя в соавтора, собирая бесценный пласт семейной, локальной истории, тем самым создавая живую, растущую коллективную память нации.
+            </p>
+            <button class="cta-button" onclick="openChronicleModal()">Добавить свою историю</button>
+        </section>
+
+        <section id="education" class="section">
+            <h2>Урок в будущее</h2>
+            <p>
+                Образовательный хаб для учителей и учеников. Интеграция платформы в образовательный процесс через готовые методические комплексы, виртуальные уроки и экскурсии.
+            </p>
+            <a href="#" class="cta-button">Начать обучение</a>
         </section>
     </div>
 
+    <footer>
+        <p>© 2026 Вечные Образы: Наследие Женщин Беларуси</p>
+        <p>Год белорусской женщины</p>
+    </footer>
+
+    <!-- Модальное окно для Женщин -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeModal()">×</button>
+                <div class="modal-name" id="modalName"></div>
+                <div class="modal-years" id="modalYears"></div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-description" id="modalDescription"></div>
+                <div class="modal-quote" id="modalQuote"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для Летописи -->
+    <div class="modal" id="chronicleModal">
+        <div class="modal-content">
+            <div class="modal-header chronicle-header">
+                <button class="modal-close" onclick="closeChronicleModal()">×</button>
+                <div class="modal-name">Народная летопись</div>
+                <div class="modal-years">Добавить историю</div>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 20px; font-style: italic;">
+                    Чтобы добавить историю, авторизуйтесь. Заполните форму: имя, годы, место. Напишите рассказ.
+                </p>
+                <form id="chronicleForm" class="chronicle-form" onsubmit="submitChronicle(event)">
+                    <div style="display: none; visibility: hidden;">
+                        <label>Не заполняйте это поле</label>
+                        <input type="text" name="spam_check" id="spam_check">
+                    </div>
+                    <div class="form-group">
+                        <label for="heroineName">Имя и фамилия героини</label>
+                        <input type="text" id="heroineName" name="heroine_name" placeholder="Например: Анна Ивановна" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="storyText">История</label>
+                        <textarea id="storyText" name="story" rows="6" placeholder="Расскажите о её жизни и поступках..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="userEmail">Ваш Email (для связи)</label>
+                        <input type="email" id="userEmail" name="user_email" placeholder="vash_email@example.com" required>
+                    </div>
+                    <p style="font-size: 1.1rem; color: #666; margin-bottom: 1rem;">
+                        * Ваша история будет проверена редактором в течение 3-5 рабочих дней. С Вами свяжутся для получения дополнительной информации.
+                    </p>
+                    <div style="text-align: center;">
+                        <button type="submit" class="submit-button" id="submitBtn">Отправить на модерацию</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Плавная прокрутка для навигации
+        const womenData = {
+            euphrosyne: { name: 'Евфросиния Полоцкая', years: 'ок. 1104–1167', description: 'Евфросиния Полоцкая – одна из величайших личностей белорусской истории, княжна, которая отказалась от светской жизни и стала монахиней. Она основала два монастыря в Полоцке, где создавались школы и переписывались книги. Евфросиния стала символом просвещения и духовности. Её крест является одной из самых значимых святынь белорусской культуры.', quote: '«Не жалейте своих сокровищ на просвещение и благотворительность, ибо только так мы можем оставить след в вечности.»' },
+            anastasia: { name: 'Анастасия Слуцкая', years: 'ок. 1500–1554', description: 'Анастасия Слуцкая – княгиня, вошедшая в историю как защитница своего княжества от татарских набегов. Она не только управляла территорией, но и активно участвовала в её обороне. Анастасия стала символом женского мужества.', quote: '«Сила женщины не меньше, чем сила мужчины, когда дело касается защиты родной земли.»' },
+            barbara: { name: 'Барбара Радзивилл', years: '1520–1551', description: 'Барбара Радзивилл – одна из самых романтичных и трагических фигур белорусской истории. Она стала королевой польской и великой княгиней литовской через брак с королем Сигизмундом II Августом.', quote: '«Настоящая любовь побеждает все преграды, даже если она должна закончиться трагедией.»' },
+            franciszka: { name: 'Франтишка Урсула Радзивилл', years: '1705–1753', description: 'Франтишка Урсула Радзивилл – первая женщина-драматург в истории белорусской и польской литературы. Основательница домашнего театра в Несвиже.', quote: '«Театр – это зеркало жизни, и каждая женщина имеет право держать его в своих руках.»' },
+            tetka: { name: 'Алоиза Пашкевич (Тётка)', years: '1876–1916', description: 'Алоиза Пашкевич, известная под псевдонимом Тётка, – одна из основательниц современной белорусской литературы. Поэтесса, писательница и общественно-политический деятель.', quote: '«Язык – это душа народа, и мы должны сохранить его для будущих поколений.»' },
+            natalya: { name: 'Наталья Арсеньева', years: '1903–1997', description: 'Наталья Арсеньева – поэтесса, драматург и переводчица, автор стихотворения «Магутны Божа».', quote: '«Магутны Божа, збаў мой край ад бед...»' },
+            larysa: { name: 'Лариса Гениюш', years: '1910–1983', description: 'Лариса Гениюш – поэтесса и общественный деятель, участница национального движения. Прошла через сталинские лагеря.', quote: '«Даже во тьме лагерей я видела свет свободы, который ждет мой народ.»' },
+            vera: { name: 'Вера Хоружая', years: '1903–1942', description: 'Вера Хоружая – активная участница подпольного движения в Западной Беларуси и партизанского движения. Герой Советского Союза (посмертно).', quote: '«Свобода дороже всего, и я готова отдать за неё свою жизнь.»' },
+            mariya: { name: 'Мария Осипова', years: '1908–1999', description: 'Мария Осипова – участница минского подполья, организовавшая операцию по уничтожению гауляйтера Кубе. Герой Советского Союза.', quote: '«Я сделала то, что должна была сделать. За Родину, за народ.»' },
+            zinaida: { name: 'Зинаида Туснолобова-Марченко', years: '1920–1980', description: 'Зинаида Туснолобова-Марченко – легендарная медсестра. Вынесла с поля боя 128 раненых. Герой Советского Союза.', quote: '«Боль и страдания не могут сломить дух человека, если у него есть вера в победу.»' },
+            darya: { name: 'Дарья Домрачева', years: 'род. 1986', description: 'Дарья Домрачева – биатлонистка, трехкратная олимпийская чемпионка Сочи-2014, обладательница Большого хрустального глобуса. Герой Беларуси.', quote: '«Успех приходит к тем, кто верит в себя и не сдается.»' },
+            marina: { name: 'Марина Василевская', years: 'род. 1990', description: 'Марина Василевская – первая женщина-космонавт в истории суверенной Беларуси. Герой Беларуси.', quote: '«Космос – это не только далекие звезды, это символ того, как далеко мы можем зайти.»' }
+        };
+
+        function openModal(womanId) {
+            const woman = womenData[womanId];
+            if (!woman) return;
+            document.getElementById('modalName').textContent = woman.name;
+            document.getElementById('modalYears').textContent = woman.years;
+            document.getElementById('modalDescription').textContent = woman.description;
+            document.getElementById('modalQuote').textContent = woman.quote;
+            document.getElementById('modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function openChronicleModal() {
+            document.getElementById('chronicleModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeChronicleModal() {
+            document.getElementById('chronicleModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        window.addEventListener('click', function(e) {
+            const modal = document.getElementById('modal');
+            const chronicleModal = document.getElementById('chronicleModal');
+            if (e.target === modal) closeModal();
+            if (e.target === chronicleModal) closeChronicleModal();
+        });
+
         document.querySelectorAll('nav a').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 const href = this.getAttribute('href');
-                
                 if (href && href.startsWith('#')) {
                     e.preventDefault();
                     const targetElement = document.querySelector(href);
                     if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
                 }
             });
         });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.timeline-period').forEach(period => observer.observe(period));
+
+        (function() { emailjs.init("Z1bxKqTKyDrwHdGmM"); })();
+
+        function submitChronicle(event) {
+            event.preventDefault();
+            const spamCheck = document.getElementById('spam_check').value;
+            if (spamCheck) return;
+            const btn = document.getElementById('submitBtn');
+            const originalText = btn.textContent;
+            const templateParams = { heroine_name: document.getElementById('heroineName').value, story: document.getElementById('storyText').value, user_email: document.getElementById('userEmail').value };
+            btn.textContent = "Отправка...";
+            btn.disabled = true;
+            emailjs.send('service_ms1ybwv', 'template_26dz3eo', templateParams).then(function() {
+                btn.textContent = "Отправлено!";
+                setTimeout(() => { alert("Спасибо! Ваша история получена."); document.getElementById('chronicleForm').reset(); closeChronicleModal(); btn.textContent = originalText; btn.disabled = false; }, 1000);
+            }, function(error) {
+                console.error('FAILED...', error);
+                btn.textContent = "Ошибка";
+                alert("Ошибка соединения.");
+                setTimeout(() => { btn.textContent = originalText; btn.disabled = false; }, 2000);
+            });
+        }
+    </script>
+    
+    <button id="chatbot-toggle" onclick="toggleChatbot()">💬</button>
+    <div id="chatbot-container">
+        <button class="chatbot-close-btn" onclick="toggleChatbot()">×</button>
+        <iframe src="chatbot-widget.html" width="450" height="600" frameborder="0" style="border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.3);"></iframe>
+    </div>
+    <script>
+        function toggleChatbot() {
+            const container = document.getElementById('chatbot-container');
+            const toggle = document.getElementById('chatbot-toggle');
+            if (container.classList.contains('open')) { container.classList.remove('open'); toggle.classList.remove('hidden'); }
+            else { container.classList.add('open'); toggle.classList.add('hidden'); }
+        }
     </script>
 </body>
 </html>
