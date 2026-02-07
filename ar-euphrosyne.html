@@ -1,27 +1,17 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <title>AR: Евфросиния Полоцкая</title>
-
-    <!-- AR.js и A-Frame - ИСПРАВЛЕННЫЕ ССЫЛКИ -->
-    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ar.js@3.4.5/aframe/build/aframe-ar.min.js"></script>
-
+    
+    <!-- AR.js и A-Frame - ПРОВЕРЕННЫЕ РАБОЧИЕ ВЕРСИИ -->
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.3/aframe/build/aframe-ar.js"></script>
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            overflow: hidden;
-            font-family: 'Arial', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { margin: 0; overflow: hidden; font-family: 'Arial', sans-serif; }
 
         .close-button {
             position: absolute;
@@ -97,17 +87,8 @@
         }
 
         @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 0.7;
-                transform: scale(1.05);
-            }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
         }
 
         .instructions {
@@ -164,13 +145,8 @@
         }
 
         @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .loading-screen h2 {
@@ -184,23 +160,12 @@
         }
 
         @media (max-width: 768px) {
-            .info-panel h2 {
-                font-size: 1.2rem;
-            }
-
-            .info-panel p {
-                font-size: 0.9rem;
-            }
-
-            .close-button {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
-            }
+            .info-panel h2 { font-size: 1.2rem; }
+            .info-panel p { font-size: 0.9rem; }
+            .close-button { width: 50px; height: 50px; font-size: 1.5rem; }
         }
     </style>
 </head>
-
 <body>
     <div id="loading-screen" class="loading-screen">
         <div class="loader"></div>
@@ -218,78 +183,62 @@
 
     <div class="instructions">
         <strong>💡 Инструкция:</strong>
-        Наведите камеру на портрет Евфросинии Полоцкой (efra.jpg). Изображение должно быть четко видно в хорошем
-        освещении.
+        Наведите камеру на портрет Евфросинии Полоцкой (efra.jpg). Изображение должно быть четко видно в хорошем освещении.
     </div>
 
-    <!-- 
-      ИСПРАВЛЕНО:
-      1. Изменил ссылку на AR.js на стабильный CDN
-      2. Оптимизировал настройки detectionMode
-      3. Добавил patternRatio для лучшего распознавания
-    -->
-    <a-scene id="ar-scene" embedded
-        arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3; patternRatio: 0.9;"
+    <!-- A-Frame сцена с минимальными настройками -->
+    <a-scene
+        id="ar-scene"
+        embedded
+        arjs="sourceType: webcam; debugUIEnabled: false;"
         vr-mode-ui="enabled: false"
-        renderer="antialias: true; alpha: true; precision: medium; logarithmicDepthBuffer: true;"
+        renderer="logarithmicDepthBuffer: true; precision: medium;"
         loading-screen="enabled: false">
-
+        
         <a-assets>
             <a-asset-item id="model-glb" src="sample.glb"></a-asset-item>
         </a-assets>
 
-        <!-- 
-          ИСПРАВЛЕНО: 
-          Добавил patternRatio="0.75" для улучшения распознавания
-          Оптимизировал параметры smooth для стабильности
-        -->
-        <a-marker type="pattern" url="pattern-efra.patt" id="main-marker" patternRatio="0.75" smooth="true"
-            smoothCount="10" smoothTolerance="0.01" smoothThreshold="5" emitevents="true">
-
+        <a-marker 
+            type="pattern" 
+            url="pattern-efra.patt" 
+            id="main-marker"
+            smooth="true" 
+            smoothCount="5" 
+            smoothTolerance="0.01"
+            emitevents="true">
+            
             <!-- Главная 3D модель -->
-            <a-entity id="main-model" gltf-model="#model-glb" position="0 0.5 0" scale="0.5 0.5 0.5"
+            <a-entity
+                id="main-model"
+                gltf-model="#model-glb"
+                position="0 0.5 0"
+                scale="0.5 0.5 0.5"
                 animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear">
             </a-entity>
-
+            
             <!-- Кольца и эффекты -->
-            <a-ring position="0 0 0" rotation="-90 0 0" radius-inner="1" radius-outer="1.3" color="#8B1538"
-                opacity="0.7" material="side: double"
-                animation="property: rotation; to: -90 0 360; loop: true; dur: 12000; easing: linear"></a-ring>
-            <a-ring position="0 0.05 0" rotation="-90 0 0" radius-inner="0.7" radius-outer="0.9" color="#D4AF37"
-                opacity="0.8" material="side: double; metalness: 0.8"
-                animation="property: rotation; to: -90 0 -360; loop: true; dur: 8000; easing: linear"></a-ring>
-
+            <a-ring position="0 0 0" rotation="-90 0 0" radius-inner="1" radius-outer="1.3" color="#8B1538" opacity="0.7" material="side: double" animation="property: rotation; to: -90 0 360; loop: true; dur: 12000; easing: linear"></a-ring>
+            <a-ring position="0 0.05 0" rotation="-90 0 0" radius-inner="0.7" radius-outer="0.9" color="#D4AF37" opacity="0.8" material="side: double; metalness: 0.8" animation="property: rotation; to: -90 0 -360; loop: true; dur: 8000; easing: linear"></a-ring>
+            
             <!-- Крест -->
-            <a-box position="0 2.5 0" width="0.1" height="0.6" depth="0.1" color="#8B1538"
-                material="metalness: 0.5"></a-box>
-            <a-box position="0 2.5 0" width="0.4" height="0.1" depth="0.1" color="#8B1538"
-                material="metalness: 0.5"></a-box>
-
+            <a-box position="0 2.5 0" width="0.1" height="0.6" depth="0.1" color="#8B1538" material="metalness: 0.5"></a-box>
+            <a-box position="0 2.5 0" width="0.4" height="0.1" depth="0.1" color="#8B1538" material="metalness: 0.5"></a-box>
+            
             <!-- Частицы -->
-            <a-sphere position="1.2 1 0" radius="0.08" color="#D4AF37"
-                material="emissive: #D4AF37; emissiveIntensity: 0.7"
-                animation="property: position; to: 1.2 2.5 0; dir: alternate; dur: 2500; loop: true; easing: easeInOutQuad"></a-sphere>
-            <a-sphere position="-1.2 1.2 0" radius="0.08" color="#D4AF37"
-                material="emissive: #D4AF37; emissiveIntensity: 0.7"
-                animation="property: position; to: -1.2 2.7 0; dir: alternate; dur: 2700; loop: true; easing: easeInOutQuad; delay: 500"></a-sphere>
-            <a-sphere position="0 1 1.2" radius="0.08" color="#D4AF37"
-                material="emissive: #D4AF37; emissiveIntensity: 0.7"
-                animation="property: position; to: 0 2.3 1.2; dir: alternate; dur: 2300; loop: true; easing: easeInOutQuad; delay: 800"></a-sphere>
-            <a-sphere position="0 1.1 -1.2" radius="0.08" color="#D4AF37"
-                material="emissive: #D4AF37; emissiveIntensity: 0.7"
-                animation="property: position; to: 0 2.6 -1.2; dir: alternate; dur: 2400; loop: true; easing: easeInOutQuad; delay: 1200"></a-sphere>
+            <a-sphere position="1.2 1 0" radius="0.08" color="#D4AF37" material="emissive: #D4AF37; emissiveIntensity: 0.7" animation="property: position; to: 1.2 2.5 0; dir: alternate; dur: 2500; loop: true; easing: easeInOutQuad"></a-sphere>
+            <a-sphere position="-1.2 1.2 0" radius="0.08" color="#D4AF37" material="emissive: #D4AF37; emissiveIntensity: 0.7" animation="property: position; to: -1.2 2.7 0; dir: alternate; dur: 2700; loop: true; easing: easeInOutQuad; delay: 500"></a-sphere>
+            <a-sphere position="0 1 1.2" radius="0.08" color="#D4AF37" material="emissive: #D4AF37; emissiveIntensity: 0.7" animation="property: position; to: 0 2.3 1.2; dir: alternate; dur: 2300; loop: true; easing: easeInOutQuad; delay: 800"></a-sphere>
+            <a-sphere position="0 1.1 -1.2" radius="0.08" color="#D4AF37" material="emissive: #D4AF37; emissiveIntensity: 0.7" animation="property: position; to: 0 2.6 -1.2; dir: alternate; dur: 2400; loop: true; easing: easeInOutQuad; delay: 1200"></a-sphere>
 
             <!-- Текст -->
-            <a-text value="Евфросиния Полоцкая" position="0 3.2 0" align="center" color="#8B1538" width="4"
-                font="https://cdn.aframe.io/fonts/Roboto-msdf.json"
-                animation="property: scale; to: 1.1 1.1 1.1; dir: alternate; dur: 1800; loop: true; easing: easeInOutQuad"></a-text>
-            <a-text value="1104-1167" position="0 2.9 0" align="center" color="#D4AF37" width="3"
-                font="https://cdn.aframe.io/fonts/Roboto-msdf.json"></a-text>
-
+            <a-text value="Евфросиния Полоцкая" position="0 3.2 0" align="center" color="#8B1538" width="4" font="https://cdn.aframe.io/fonts/Roboto-msdf.json" animation="property: scale; to: 1.1 1.1 1.1; dir: alternate; dur: 1800; loop: true; easing: easeInOutQuad"></a-text>
+            <a-text value="1104-1167" position="0 2.9 0" align="center" color="#D4AF37" width="3" font="https://cdn.aframe.io/fonts/Roboto-msdf.json"></a-text>
+            
             <!-- Освещение -->
             <a-light type="point" intensity="1.5" color="#FFFFFF" position="0 3 0"></a-light>
             <a-light type="ambient" intensity="0.8" color="#FFFFFF"></a-light>
-
+            
         </a-marker>
 
         <a-entity camera></a-entity>
@@ -297,57 +246,60 @@
 
     <script>
         let markerFound = false;
-
+        
         function goBack() {
             try {
                 const scene = document.querySelector('a-scene');
                 if (scene && scene.components && scene.components.arjs) {
-                    scene.components.arjs.stopVideo();
+                    const arSystem = scene.systems.arjs || scene.components.arjs;
+                    if (arSystem && arSystem.stopVideo) {
+                        arSystem.stopVideo();
+                    }
                 }
-            } catch (e) {
-                console.log('Ошибка остановки видео:', e);
+            } catch(e) { 
+                console.log('Ошибка остановки видео:', e); 
             }
             window.location.href = 'gallery.html';
         }
 
-        window.addEventListener('load', function () {
-            console.log('AR сцена загружается...');
-
+        window.addEventListener('load', function() {
+            console.log('🚀 AR сцена загружается...');
+            
             const loadingScreen = document.getElementById('loading-screen');
             const marker = document.getElementById('main-marker');
             const statusTitle = document.getElementById('status-title');
             const statusText = document.getElementById('status-text');
             const markerStatus = document.getElementById('marker-status');
-
-            // Проверяем загрузку AR.js
             const scene = document.querySelector('a-scene');
+
+            // Скрываем экран загрузки после инициализации сцены
             if (scene) {
-                scene.addEventListener('renderstart', function () {
-                    console.log('✅ AR.js запущен успешно');
+                scene.addEventListener('loaded', function() {
+                    console.log('✅ A-Frame сцена загружена');
                     setTimeout(() => {
                         loadingScreen.classList.add('hidden');
-                        console.log('AR готов!');
-                    }, 1500);
+                        console.log('✅ AR готов к использованию');
+                    }, 1000);
                 });
-            } else {
-                // Если сцена не загрузилась, скрываем экран загрузки через 3 секунды
-                setTimeout(() => {
-                    loadingScreen.classList.add('hidden');
-                }, 3000);
             }
 
+            // Обработчики маркера
             if (marker) {
-                marker.addEventListener('markerFound', function () {
+                marker.addEventListener('markerFound', function() {
                     console.log('✅ Маркер найден!');
                     markerFound = true;
                     statusTitle.innerHTML = '✅ Образ найден!';
                     statusText.innerHTML = 'Смотрите на святую покровительницу Беларуси';
                     markerStatus.innerHTML = '🙏 Евфросиния с вами';
                     markerStatus.className = 'marker-status found';
-                    if ('vibrate' in navigator) navigator.vibrate(100);
+                    
+                    // Вибрация при обнаружении
+                    if ('vibrate' in navigator) {
+                        navigator.vibrate(100);
+                    }
                 });
 
-                marker.addEventListener('markerLost', function () {
+                marker.addEventListener('markerLost', function() {
                     console.log('❌ Маркер потерян');
                     markerFound = false;
                     statusTitle.innerHTML = '📱 AR Готов!';
@@ -356,15 +308,22 @@
                     markerStatus.className = 'marker-status searching';
                 });
             } else {
-                console.error('❌ Маркер не найден в DOM');
+                console.error('❌ Элемент маркера не найден');
             }
+
+            // Запасной таймер для скрытия экрана загрузки
+            setTimeout(() => {
+                if (!loadingScreen.classList.contains('hidden')) {
+                    loadingScreen.classList.add('hidden');
+                    console.log('⏰ Экран загрузки скрыт по таймеру');
+                }
+            }, 4000);
         });
 
         // Обработка ошибок
-        window.addEventListener('error', function (e) {
-            console.error('Ошибка загрузки:', e.message);
+        window.addEventListener('error', function(e) {
+            console.error('❌ Ошибка:', e.message);
         });
     </script>
 </body>
-
 </html>
